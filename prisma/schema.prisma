@@ -32,9 +32,11 @@ model DatVe {
   ma_ghe        Int
   Ghe           Ghe       @relation(fields: [ma_ghe], references: [ma_ghe], onDelete: NoAction, onUpdate: NoAction, map: "DatVe_ibfk_1")
   LichChieu     LichChieu @relation(fields: [ma_lich_chieu], references: [ma_lich_chieu], onDelete: NoAction, onUpdate: NoAction, map: "DatVe_ibfk_2")
+  NguoiDung     NguoiDung @relation(fields: [tai_khoan], references: [tai_khoan], onDelete: NoAction, onUpdate: NoAction, map: "DatVe_ibfk_3")
 
   @@index([ma_ghe], map: "ma_ghe")
   @@index([ma_lich_chieu], map: "ma_lich_chieu")
+  @@index([tai_khoan], map: "tai_khoan")
 }
 
 model Ghe {
@@ -70,12 +72,13 @@ model LichChieu {
 }
 
 model NguoiDung {
-  tai_khoan       Int    @id @default(autoincrement())
-  ho_ten          String @db.VarChar(255)
-  email           String @unique(map: "email") @db.VarChar(255)
-  so_dt           String @unique(map: "so_dt") @db.VarChar(255)
-  mat_khau        String @db.VarChar(255)
-  loai_nguoi_dung String @db.VarChar(255)
+  tai_khoan       Int     @id @default(autoincrement())
+  ho_ten          String  @db.VarChar(255)
+  email           String  @unique(map: "email") @db.VarChar(255)
+  so_dt           String  @unique(map: "so_dt") @db.VarChar(255)
+  mat_khau        String  @db.VarChar(255)
+  loai_nguoi_dung String  @db.VarChar(255)
+  DatVe           DatVe[]
 }
 
 model Phim {
@@ -84,7 +87,7 @@ model Phim {
   trailer         String      @db.VarChar(500)
   hinh_anh        String      @db.VarChar(255)
   mo_ta           String      @db.VarChar(500)
-  ngay_khoi_chieu DateTime    @db.Date
+  ngay_khoi_chieu DateTime    @db.Timestamp(0)
   danh_gia        Int
   hot             Boolean?
   dang_chieu      Boolean?

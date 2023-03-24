@@ -1,14 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt';
-
 import { PrismaClient } from '@prisma/client';
-import { UserLoginDto, UserSignupDto, getUserDto } from './dto/user.dto';
-
+import { UserSignupDto, UserLoginDto } from './dto/auth.dto';
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt/dist';
 const bcrypt = require('bcrypt');
 
 @Injectable()
-export class UserService {
+export class AuthService {
   constructor(private config: ConfigService, private jwt: JwtService) {}
 
   private prisma = new PrismaClient();
@@ -43,17 +41,9 @@ export class UserService {
       loai_nguoi_dung,
     };
     let data = await this.prisma.nguoiDung.create({
-      data: model,
+      data: model
     });
     return data;
-  }
-
-  async layDanhSachNguoiDung(): Promise<getUserDto[]> {
-    let data = this.prisma.nguoiDung.findMany();
-    return data;
-  }
-
-  async capNhatThongTinNguoiDung(updateUser: getUserDto): Promise<getUserDto> {
-    return;
+ 
   }
 }

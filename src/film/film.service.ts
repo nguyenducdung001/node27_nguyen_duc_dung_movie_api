@@ -6,7 +6,7 @@ import { phimDto } from './dto/film.dto';
 export class FilmService {
   prisma: PrismaClient = new PrismaClient();
 
-  getFilm(): Promise<phimDto[]> {
+  layDanhSachPhim(): Promise<phimDto[]> {
     let data = this.prisma.phim.findMany();
     return data;
   }
