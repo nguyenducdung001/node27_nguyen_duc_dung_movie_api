@@ -83,4 +83,22 @@ export class UserService {
     }
     return dataOne;
   }
+
+  async removeUser(id: number) {
+    let dataOne = await this.prisma.nguoiDung.findUnique({
+      where: {
+        tai_khoan: id,
+      },
+    });
+
+    if (dataOne) {
+      let delUser = await this.prisma.nguoiDung.delete({
+        where: {
+          tai_khoan: id,
+        },
+      });
+
+      return delUser;
+    }
+  }
 }

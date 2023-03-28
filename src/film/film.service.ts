@@ -1,13 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { phimDto } from './dto/film.dto';
+import { bannerDto, phimDto } from './dto/film.dto';
 
 @Injectable()
 export class FilmService {
   prisma: PrismaClient = new PrismaClient();
 
-  layDanhSachPhim(): Promise<phimDto[]> {
+  getListFilm(): Promise<phimDto[]> {
     let data = this.prisma.phim.findMany();
+    return data;
+  }
+
+  getListBanner(): Promise<bannerDto[]> {
+    let data = this.prisma.banner.findMany();
     return data;
   }
 }

@@ -1,6 +1,6 @@
 import { Controller, Get, Post } from '@nestjs/common';
 import { FilmService } from './film.service';
-import { phimDto } from './dto/film.dto';
+import { bannerDto, phimDto } from './dto/film.dto';
 import { ConfigService } from '@nestjs/config';
 import {
   UploadedFile,
@@ -24,9 +24,19 @@ export class FilmController {
   //  Lấy danh sách phim
   // @UseGuards(AuthGuard('token'))
   @Get('LayDanhSachPhim')
-  layDanhSachPhim(): Promise<phimDto[]> {
-    return this.filmService.layDanhSachPhim();
+  getListFilm(): Promise<phimDto[]> {
+    return this.filmService.getListFilm();
   }
+
+  // Lấy danh sách banner
+  @Get('LayDanhSachBanner')
+  getListBanner(): Promise<bannerDto[]> {
+    return this.filmService.getListBanner();
+  }
+
+  // Thêm phim
+  @Post('ThemPhim')
+  createFilm(): any {}
 
   @Post('/upload')
   @UseInterceptors(
