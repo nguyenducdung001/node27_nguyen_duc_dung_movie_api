@@ -1,5 +1,10 @@
-import { Controller, Post, Body, Get, Put } from '@nestjs/common';
-import { getUserDto, UserLoginDto, UserSignupDto } from './dto/user.dto';
+import { Controller, Post, Body, Get, Put, Param, Patch } from '@nestjs/common';
+import {
+  getUserDto,
+  updateUserDto,
+  UserLoginDto,
+  UserSignupDto,
+} from './dto/user.dto';
 import { UserService } from './user.service';
 import { ApiTags } from '@nestjs/swagger/dist';
 
@@ -21,13 +26,15 @@ export class UserController {
   }
 
   @Get('LayDanhSachNguoiDung')
-  layDanhSachNguoiDung(): Promise<getUserDto[]> {
-    return this.userService.layDanhSachNguoiDung();
+  getListUser(): Promise<getUserDto[]> {
+    return this.userService.getListUser();
   }
 
-  @Put('CapNhatThongTinNguoiDung')
-  capNhatThongTinNguoiDung(body: getUserDto): Promise<getUserDto> {
-    let updateUser = body;
-    return this.userService.capNhatThongTinNguoiDung(updateUser);
+  @Put('CapNhatThongTinNguoiDung/:id')
+  updateUser(
+    @Body() updateUser: updateUserDto,
+    @Param('id') id: string,
+  ): Promise<any> {
+    return this.userService.updateUser(updateUser, +id);
   }
 }

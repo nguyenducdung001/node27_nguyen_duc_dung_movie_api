@@ -3,7 +3,12 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
 import { PrismaClient } from '@prisma/client';
-import { UserLoginDto, UserSignupDto, getUserDto } from './dto/user.dto';
+import {
+  UserLoginDto,
+  UserSignupDto,
+  getUserDto,
+  updateUserDto,
+} from './dto/user.dto';
 
 const bcrypt = require('bcrypt');
 
@@ -48,12 +53,34 @@ export class UserService {
     return data;
   }
 
-  async layDanhSachNguoiDung(): Promise<getUserDto[]> {
+  async getListUser(): Promise<getUserDto[]> {
     let data = this.prisma.nguoiDung.findMany();
     return data;
   }
 
-  async capNhatThongTinNguoiDung(updateUser: getUserDto): Promise<getUserDto> {
-    return;
+  async updateUser(updateUser: updateUserDto, tai_khoan: number): Promise<any> {
+    let dataOne = await this.prisma.nguoiDung.findUnique({
+      where: {
+        tai_khoan: tai_khoan,
+      },
+    });
+    if (dataOne) {
+      let { ho_ten, email, so_dt, mat_khau, loai_nguoi_dung } = updateUser;
+      let userEdit = {
+        ho_ten,
+        email,
+        so_dt,
+        mat_khau,
+        loai_nguoi_dung,
+      };
+      let editData = await this.prisma.nguoiDung.update({
+        data: userEdit,
+        where: {
+          tai_khoan: tai_khoan,
+        },
+      });
+      return editData;
+    }
+    return dataOne;
   }
 }
