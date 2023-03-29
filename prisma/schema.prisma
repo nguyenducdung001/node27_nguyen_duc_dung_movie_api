@@ -17,12 +17,14 @@ model Banner {
 }
 
 model CumRap {
-  ma_cum_rap      Int        @id @default(autoincrement())
+  ma_cum_rap      String     @id @unique(map: "ma_cum_rap") @db.VarChar(255)
   ten_cum_rap     String     @unique(map: "ten_cum_rap") @db.VarChar(255)
   dia_chi         String     @unique(map: "dia_chi") @db.VarChar(255)
-  ma_he_thong_rap Int        @unique(map: "ma_he_thong_rap")
+  ma_he_thong_rap String     @db.VarChar(255)
   HeThongRap      HeThongRap @relation(fields: [ma_he_thong_rap], references: [ma_he_thong_rap], onDelete: NoAction, onUpdate: NoAction, map: "CumRap_ibfk_1")
   RapPhim         RapPhim[]
+
+  @@index([ma_he_thong_rap], map: "ma_he_thong_rap")
 }
 
 model DatVe {
@@ -43,7 +45,7 @@ model Ghe {
   ma_ghe   Int     @id @default(autoincrement())
   ten_ghe  String  @db.VarChar(255)
   loai_ghe String  @db.VarChar(255)
-  ma_rap   Int
+  ma_rap   String  @db.VarChar(255)
   DatVe    DatVe[]
   RapPhim  RapPhim @relation(fields: [ma_rap], references: [ma_rap], onDelete: NoAction, onUpdate: NoAction, map: "Ghe_ibfk_1")
 
@@ -51,15 +53,15 @@ model Ghe {
 }
 
 model HeThongRap {
-  ma_he_thong_rap  Int     @id @default(autoincrement())
-  ten_he_thong_rap String  @db.VarChar(255)
-  logo             String  @db.VarChar(500)
-  CumRap           CumRap?
+  ma_he_thong_rap  String   @id @unique(map: "ma_he_thong_rap") @db.VarChar(255)
+  ten_he_thong_rap String   @db.VarChar(255)
+  logo             String   @db.VarChar(500)
+  CumRap           CumRap[]
 }
 
 model LichChieu {
   ma_lich_chieu  Int       @id @default(autoincrement())
-  ma_rap         Int
+  ma_rap         String    @db.VarChar(255)
   ma_phim        Int
   ngay_gio_chieu DateTime? @db.DateTime(0)
   gia_ve         Int
@@ -97,9 +99,9 @@ model Phim {
 }
 
 model RapPhim {
-  ma_rap     Int         @id @default(autoincrement())
-  ten_rap    String      @unique(map: "ten_rap") @db.VarChar(255)
-  ma_cum_rap Int
+  ma_rap     String      @id @unique(map: "ma_rap") @db.VarChar(255)
+  ten_rap    String      @db.VarChar(255)
+  ma_cum_rap String      @db.VarChar(255)
   Ghe        Ghe[]
   LichChieu  LichChieu[]
   CumRap     CumRap      @relation(fields: [ma_cum_rap], references: [ma_cum_rap], onDelete: NoAction, onUpdate: NoAction, map: "RapPhim_ibfk_1")

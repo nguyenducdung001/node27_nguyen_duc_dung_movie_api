@@ -1,8 +1,15 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put } from '@nestjs/common';
 import { FilmService } from './film.service';
-import { bannerDto, phimDto } from './dto/film.dto';
+import {
+  bannerDto,
+  phimDto,
+  createFilmDto,
+  updateFilmDto,
+} from './dto/film.dto';
 import { ConfigService } from '@nestjs/config';
 import {
+  Delete,
+  Param,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -36,7 +43,24 @@ export class FilmController {
 
   // Thêm phim
   @Post('ThemPhim')
-  createFilm(): any {}
+  createFilm(@Body() newFilm: createFilmDto): Promise<createFilmDto> {
+    return this.filmService.createFilm(newFilm);
+  }
+
+  // Cập nhật phim
+  @Put('CapNhatPhim/:ma_phim')
+  updateFilm(
+    @Body() updateFilm: updateFilmDto,
+    @Param('ma_phim') ma_phim: string,
+  ): Promise<any> {
+    return this.filmService.updateFilm(updateFilm, +ma_phim);
+  }
+
+  // Xoá phim
+  @Delete('XoaPhim/:ma_phim')
+  removeFilm(@Param('ma_phim') ma_phim: string) {
+    return this.filmService.removeFilm(+ma_phim);
+  }
 
   @Post('/upload')
   @UseInterceptors(

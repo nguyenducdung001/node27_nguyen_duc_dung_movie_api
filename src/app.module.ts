@@ -4,7 +4,8 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { FilmModule } from './film/film.module';
 import { ConfigModule } from '@nestjs/config';
-import { AuthModule } from './auth/auth.module';
+import { TicketModule } from './ticket/ticket.module';
+import { CinemaModule } from './cinema/cinema.module';
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { AuthModule } from './auth/auth.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    AuthModule,
+    TicketModule,
+    CinemaModule,
   ],
   controllers: [AppController],
   providers: [AppService],
