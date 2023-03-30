@@ -10,3 +10,11 @@ export interface theaterClusDto {
   dia_chi: string;
   ma_he_thong_rap: string;
 }
+
+export interface showTBySyt {
+  ma_lich_chieu: number;
+  ma_rap: string;
+  ma_phim: string;
+  ngay_gio_chieu: Date;
+  gia_ve: number;
+}

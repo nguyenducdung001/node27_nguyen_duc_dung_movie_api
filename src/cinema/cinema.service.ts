@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { HeThongRap, PrismaClient } from '@prisma/client';
-import { cineSytDto, theaterClusDto } from './dto/cinema.dto';
+import { cineSytDto, showTBySyt, theaterClusDto } from './dto/cinema.dto';
 
 @Injectable()
 export class CinemaService {
@@ -39,5 +39,16 @@ export class CinemaService {
       });
       return data;
     }
+  }
+
+  // Lấy thông tin lịch chiếu theo hệ thống rạp
+  async getShowtBySyt(ma_he_thong_rap): Promise<showTBySyt[]> {
+    let dataOne = await this.getTheaterCluster(ma_he_thong_rap);
+
+    if (dataOne) {
+      let data = await this.prisma.lichChieu.findMany({});
+    }
+
+    return;
   }
 }

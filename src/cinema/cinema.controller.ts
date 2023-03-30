@@ -16,7 +16,14 @@ export class CinemaController {
   }
 
   @Get('LayThongTinCumRapTheoHeThong')
-  async getTheaterCluster(@Query('ma_he_thong_rap') ma_he_thong_rap: string) {
+  async getTheaterCluster(
+    @Query('ma_he_thong_rap') ma_he_thong_rap: string,
+  ): Promise<theaterClusDto[]> {
     return await this.cinemaService.getTheaterCluster(ma_he_thong_rap);
+  }
+
+  @Get('LayThongTinLichChieuTheoHeThongRap')
+  async getShowtBySyt(@Query('ma_he_thong_rap') ma_he_thong_rap: string) {
+    return await this.cinemaService.getShowtBySyt(ma_he_thong_rap);
   }
 }
